@@ -1,0 +1,39 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vue.js Pet Depot</title>
+        <!-- Load Vue.js from a server (so no local file is needed) -->
+        <script src="https://unpkg.com/vue@2.7.8/dist/vue.js"></script>
+</head>
+<body>
+    <!-- The element where Vue will mount -->
+    <div id="app">
+        <header>
+            <h1 v-text="sitename"></h1>
+        </header>
+        <main>
+            <figure>
+                <img v-bind:src="product.image" v-bind:alt="product.title">
+            </figure>
+            <h2 v-text="product.title"></h2>
+            <p v-text="product.description"></p>
+            <p v-text="'Price: $' + product.price"></p>
+        </main>
+    </div>
+    <script type="text/javascript">
+        let webstore = new Vue({ // The Vue instance
+            el: '#app', // The 'option object': DOM mounting point
+            data: {
+                sitename: 'Vue.js Pet Depot', // The data for the Vue instance
+                product: {
+                    id: 1001,
+                    title: 'Funny Cat',
+                    description: 'A funny cat that will make you laugh!',
+                    price: 9.99
+                }
+            }
+        });
+    </script>
+</body>
+</html>
