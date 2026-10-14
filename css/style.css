@@ -1,69 +1,419 @@
+/* ==========================================================================
+   After School Tutoring Courses - Stylesheet
+   Course: CST 3144 - Full Stack Web Development
+   A clean, student-level stylesheet for course catalog and checkout
+   ========================================================================== */
 
-body {
-    margin: 0;
-    width: 100%;
-    height: auto;
-}
-
-#app {
-    display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-}
-
-header {
-    grid-column: 1;
-    grid-row: 1;
-    display: flex;
-    padding: 2px 5px;
-    background-color: #fc8f00;
-    height: fit-content;
-    width: auto;
-}
-
-header h1 {
-    font-size: 3em;
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-    margin: 1%;
-    flex: 1;
-    text-align: center;
-}
-
-#checkoutButton {
-    background-color: #4c63af;
-    place-items: right;
-    margin: 1%;
-}
-
-main {
-    grid-column: 1;
-    grid-row: 2;
-    margin: 10px;
-}
-
-#productPage {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
+/* --- General Reset & Base Styles --- */
+* {
     box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f4f6f9;
+    color: #333333;
+    line-height: 1.5;
+}
+
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header Section --- */
+header {
+    background-color: #e67e22;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+#checkoutButton {
+    background-color: #2c3e50;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#checkoutButton:hover {
+    background-color: #1a252f;
+    transform: scale(1.02);
+}
+
+/* --- Main Content Area --- */
+main {
+    flex: 1;
+    max-width: 1100px;
+    width: 100%;
+    margin: 25px auto;
+    padding: 0 20px;
+}
+
+/* --- Product Catalog Page --- */
+#productPage {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+/* --- Sort Options Bar (spans all columns at top of productPage) --- */
+#sortOptions {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #ffffff;
+    padding: 14px 20px;
+    border-radius: 8px;
+    border: 1px solid #e1e8ed;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+#sortOptions label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+#sortOptions select {
+    padding: 8px 14px;
+    border: 1px solid #ccd1d9;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background-color: #ffffff;
+    color: #333333;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#sortOptions select:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 3px rgba(52, 152, 219, 0.4);
+}
+
+/* --- Product Cards --- */
 .productCard {
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
-    margin: 10px;
-    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 8px;
+    padding: 18px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.productCard:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Course Icon Wrapper (Font Awesome icons from linked CDN) --- */
 .imgWrapper {
+    margin: 0 0 14px 0;
     width: 100%;
+    height: 130px;
     overflow: hidden;
-    aspect-ratio: 4/3;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    border: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
-.img {
-    height: 100%;
+/* Hide the <img> element because the Font Awesome icon is rendered visually */
+.imgWrapper .img {
+    display: none;
+}
+
+/* Base icon styling using Font Awesome 5 Free */
+.imgWrapper::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 3.5rem;
+    color: #e67e22;
+    display: inline-block;
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.productCard:hover .imgWrapper::before {
+    transform: scale(1.12);
+    color: #2c3e50;
+}
+
+/* Font Awesome Icon mappings by icon class from product.image */
+.imgWrapper:has(img[src*="calculator"])::before,
+.imgWrapper:has(img[alt*="Math"])::before { content: "\f1ec"; }
+
+.imgWrapper:has(img[src*="book"])::before,
+.imgWrapper:has(img[alt*="English"])::before { content: "\f518"; }
+
+.imgWrapper:has(img[src*="laptop"])::before,
+.imgWrapper:has(img[alt*="Computer"])::before { content: "\f5fc"; }
+
+.imgWrapper:has(img[src*="atom"])::before,
+.imgWrapper:has(img[alt*="Physics"])::before { content: "\f5d2"; }
+
+.imgWrapper:has(img[src*="flask"])::before,
+.imgWrapper:has(img[alt*="Chemistry"])::before { content: "\f0c3"; }
+
+.imgWrapper:has(img[src*="dna"])::before,
+.imgWrapper:has(img[alt*="Biology"])::before { content: "\f471"; }
+
+.imgWrapper:has(img[src*="landmark"])::before,
+.imgWrapper:has(img[alt*="History"])::before { content: "\f66f"; }
+
+.imgWrapper:has(img[src*="music"])::before,
+.imgWrapper:has(img[alt*="Music"])::before { content: "\f001"; }
+
+.imgWrapper:has(img[src*="palette"])::before,
+.imgWrapper:has(img[alt*="Art"])::before { content: "\f53f"; }
+
+.imgWrapper:has(img[src*="language"])::before,
+.imgWrapper:has(img[alt*="Spanish"])::before { content: "\f1ab"; }
+
+.imgWrapper:has(img[src*="theater"])::before,
+.imgWrapper:has(img[alt*="Drama"])::before { content: "\f630"; }
+
+.imgWrapper:has(img[src*="futbol"])::before,
+.imgWrapper:has(img[alt*="Sports"])::before { content: "\f1e3"; }
+
+/* --- Product Text Information --- */
+.productCard h2 {
+    font-size: 1.25rem;
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+}
+
+.productCard p {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    color: #555555;
+}
+
+/* 1. Description: flexes to keep all cards evenly aligned */
+.productCard p:nth-of-type(1) {
+    flex-grow: 1;
+}
+
+/* 2. Course Location */
+.productCard p:nth-of-type(2) {
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+.productCard p:nth-of-type(2)::before {
+    content: "Location: ";
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* 3. Course Fee / Price */
+.productCard p:nth-of-type(3) {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #27ae60;
+    margin-top: 6px;
+}
+
+/* 4. Available Spaces / Inventory */
+.productCard p:nth-of-type(4) {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 10px;
+}
+
+/* Add to Cart Button */
+.productCard button {
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.productCard button:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.productCard button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Spaces Remaining Notification */
+.productCard > span {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: bold;
+    margin: 8px 0 4px 0;
+    color: #e67e22;
+}
+
+/* Star Rating Display */
+.productCard > div {
+    margin-top: 8px;
+}
+
+.productCard .fa-star {
+    color: #f39c12;
+    margin-right: 2px;
+    font-size: 0.95rem;
+}
+
+/* --- Checkout Page --- */
+#checkoutPage {
+    background-color: #ffffff;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 25px 30px;
+    border-radius: 8px;
+    border: 1px solid #e1e8ed;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#checkoutPage h2 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e67e22;
+    font-size: 1.4rem;
+}
+
+#checkoutPage h2:nth-of-type(2) {
+    margin-top: 30px;
+}
+
+#checkoutPage p {
+    margin: 12px 0;
+    font-size: 0.95rem;
+    color: #333333;
+}
+
+#checkoutPage p strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #2c3e50;
+}
+
+#checkoutPage input:not([type="checkbox"]):not([type="radio"]),
+#checkoutPage select {
     width: 100%;
-    object-fit: cover;
-    object-position: center;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    color: #333333;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#checkoutPage input:not([type="checkbox"]):not([type="radio"]):focus,
+#checkoutPage select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 4px rgba(52, 152, 219, 0.3);
+    outline: none;
+}
+
+#checkoutPage input[type="checkbox"],
+#checkoutPage input[type="radio"] {
+    margin-right: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#checkoutPage label {
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+/* Order Information Display */
+#checkoutPage h2:nth-of-type(2) ~ p {
+    background-color: #f9fbfd;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-left: 3px solid #3498db;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.9rem;
+    color: #444444;
+}
+
+/* Submit Order Button */
+#checkoutPage button {
+    display: block;
+    width: 100%;
+    background-color: #27ae60;
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1.05rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 25px;
+    transition: background-color 0.2s ease;
+}
+
+#checkoutPage button:hover {
+    background-color: #219150;
+}
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+        padding: 15px;
+    }
+
+    main {
+        padding: 0 12px;
+        margin: 15px auto;
+    }
+
+    #sortOptions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    #sortOptions select {
+        width: 100%;
+    }
+
+    #checkoutPage {
+        padding: 20px 15px;
+    }
 }
