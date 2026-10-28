@@ -81,7 +81,7 @@
                 <p>Ship As Gift: {{order.gift}}</p>
                 <p>Shipping Method: {{order.method}}</p>
 
-                <button @click="submitForm()">Submit Order</button>
+                <button id="submitForm" @click="submitForm()" v-bind:disabled="!isFormValid()">Submit Order</button>
             </div>
             <div id="productPage" v-else>
                 <div id="sortOptions">
@@ -161,6 +161,9 @@
                     this.order.name = this.firstName;
                     this.order.phone = this.phone;
                     alert('Order submitted by ' + this.order.name + '! Thank you for your purchase.');
+                },
+                isFormValid: function() {
+                    return this.order.name && this.order.phone;
                 },
                 canAddToCart: function(product) {
                     return product.availableInventory > this.cartCount(product.id);
