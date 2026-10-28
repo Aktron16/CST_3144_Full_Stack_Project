@@ -43,10 +43,12 @@
                     <input v-model.trim="order.phone" placeholder="Phone Number" required>
                 </p>
                 <p>
-                    <strong>Address:</strong> <input v-model="order.address"/>
+                    <strong>Address:</strong> 
+                    <input v-model="order.address" placeholder="Address"/>
                 </p>
                 <p>
-                    <strong>City:</strong> <input v-model="order.city"/>
+                    <strong>City:</strong> 
+                    <input v-model="order.city" placeholder="City"/>
                 </p>
                 <p>
                     <strong>State:</strong>
@@ -58,12 +60,13 @@
                     </select>
                 </p>
                 <p>
-                    <strong>Zip/Postal Code:</strong> <input v-model.num="order.zip"/>
+                    <strong>Zip/Postal Code:</strong> <input v-model.num="order.zip" placeholder="Zip/Postal Code"/>
                 </p>
                 <p>
-                    <input type="checkbox" id="gift" value="true" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.noSendgift">
                     <label for="gift">Ship As Gift?</label>
+                    <input type="checkbox" id="gift" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.noSendgift" value="false">
                 </p>
+                <p><strong>Shipping Method:</strong></p>
                 <p><input type="radio" id="home" value="Home" v-model="order.method">
                     <label for="home">Home</label>
                 </p>
@@ -81,7 +84,7 @@
                 <p>Ship As Gift: {{order.gift}}</p>
                 <p>Shipping Method: {{order.method}}</p>
 
-                <button id="submitForm" @click="submitForm()" v-bind:disabled="!isFormValid()">Submit Order</button>
+                <button id="submitForm" @click="submitForm()" v-bind:disabled="isFormValid()">Submit Order</button>
             </div>
             <div id="productPage" v-else>
                 <div id="sortOptions">
