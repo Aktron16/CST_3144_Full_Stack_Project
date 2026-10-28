@@ -31,6 +31,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
     padding: 15px 30px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
@@ -40,6 +41,52 @@ header h1 {
     font-size: 1.8rem;
     font-weight: bold;
     color: #ffffff;
+    white-space: nowrap;
+}
+
+/* --- Header Search Bar --- */
+.searchContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 8px 16px;
+    flex: 0 1 420px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.searchContainer label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+    white-space: nowrap;
+}
+
+.searchContainer input {
+    border: none;
+    outline: none;
+    font-size: 0.9rem;
+    color: #333333;
+    width: 100%;
+    background: transparent;
+}
+
+.searchContainer .clearBtn {
+    background: none;
+    border: none;
+    color: #95a5a6;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0 4px;
+}
+
+.searchContainer .clearBtn:hover {
+    color: #e74c3c;
 }
 
 #checkoutButton {
@@ -56,9 +103,14 @@ header h1 {
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
-#checkoutButton:hover {
+#checkoutButton:hover:not(:disabled) {
     background-color: #1a252f;
     transform: scale(1.02);
+}
+
+#checkoutButton:disabled {
+    background-color: #7f8c8d;
+    opacity: 0.9;
 }
 
 /* --- Main Content Area --- */
@@ -81,6 +133,7 @@ main {
 #sortOptions {
     grid-column: 1 / -1;
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     gap: 15px;
     background-color: #ffffff;
@@ -396,6 +449,11 @@ main {
         gap: 12px;
         text-align: center;
         padding: 15px;
+    }
+
+    .searchContainer {
+        width: 100%;
+        box-sizing: border-box;
     }
 
     main {
