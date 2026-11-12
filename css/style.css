@@ -186,7 +186,8 @@ main {
 }
 
 /* --- Course Icon Wrapper (Font Awesome icons from linked CDN) --- */
-.imgWrapper {
+.imgWrapper,
+.productCard figure {
     margin: 0 0 14px 0;
     width: 100%;
     height: 130px;
@@ -200,62 +201,27 @@ main {
     position: relative;
 }
 
-/* Hide the <img> element because the Font Awesome icon is rendered visually */
-.imgWrapper .img {
-    display: none;
-}
-
-/* Base icon styling using Font Awesome 5 Free */
-.imgWrapper::before {
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
+/* Dynamic icon & image display */
+.imgWrapper i,
+.productCard figure i,
+.imgWrapper span,
+.productCard figure span {
     font-size: 3.5rem;
     color: #e67e22;
-    display: inline-block;
     transition: transform 0.25s ease, color 0.25s ease;
 }
 
-.productCard:hover .imgWrapper::before {
+.productCard:hover :is(.imgWrapper, figure) :is(i, span) {
     transform: scale(1.12);
     color: #2c3e50;
 }
 
-/* Font Awesome Icon mappings by icon class from product.image */
-.imgWrapper:has(img[src*="calculator"])::before,
-.imgWrapper:has(img[alt*="Math"])::before { content: "\f1ec"; }
-
-.imgWrapper:has(img[src*="book"])::before,
-.imgWrapper:has(img[alt*="English"])::before { content: "\f518"; }
-
-.imgWrapper:has(img[src*="laptop"])::before,
-.imgWrapper:has(img[alt*="Computer"])::before { content: "\f5fc"; }
-
-.imgWrapper:has(img[src*="atom"])::before,
-.imgWrapper:has(img[alt*="Physics"])::before { content: "\f5d2"; }
-
-.imgWrapper:has(img[src*="flask"])::before,
-.imgWrapper:has(img[alt*="Chemistry"])::before { content: "\f0c3"; }
-
-.imgWrapper:has(img[src*="dna"])::before,
-.imgWrapper:has(img[alt*="Biology"])::before { content: "\f471"; }
-
-.imgWrapper:has(img[src*="landmark"])::before,
-.imgWrapper:has(img[alt*="History"])::before { content: "\f66f"; }
-
-.imgWrapper:has(img[src*="music"])::before,
-.imgWrapper:has(img[alt*="Music"])::before { content: "\f001"; }
-
-.imgWrapper:has(img[src*="palette"])::before,
-.imgWrapper:has(img[alt*="Art"])::before { content: "\f53f"; }
-
-.imgWrapper:has(img[src*="language"])::before,
-.imgWrapper:has(img[alt*="Spanish"])::before { content: "\f1ab"; }
-
-.imgWrapper:has(img[src*="theater"])::before,
-.imgWrapper:has(img[alt*="Drama"])::before { content: "\f630"; }
-
-.imgWrapper:has(img[src*="futbol"])::before,
-.imgWrapper:has(img[alt*="Sports"])::before { content: "\f1e3"; }
+.imgWrapper img,
+.productCard figure img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
 
 /* --- Product Text Information --- */
 .productCard h2 {
@@ -271,25 +237,25 @@ main {
 }
 
 /* 1. Description: flexes to keep all cards evenly aligned */
-.productCard p:nth-of-type(1) {
+#productPage .productCard p:nth-of-type(1) {
     flex-grow: 1;
 }
 
 /* 2. Course Location */
-.productCard p:nth-of-type(2) {
+#productPage .productCard p:nth-of-type(2) {
     font-size: 0.9rem;
     color: #4a5568;
     font-weight: 500;
 }
 
-.productCard p:nth-of-type(2)::before {
+#productPage .productCard p:nth-of-type(2)::before {
     content: "Location: ";
     font-weight: bold;
     color: #2c3e50;
 }
 
 /* 3. Course Fee / Price */
-.productCard p:nth-of-type(3) {
+#productPage .productCard p:nth-of-type(3) {
     font-weight: bold;
     font-size: 1.1rem;
     color: #27ae60;
@@ -297,7 +263,7 @@ main {
 }
 
 /* 4. Available Spaces / Inventory */
-.productCard p:nth-of-type(4) {
+#productPage .productCard p:nth-of-type(4) {
     font-size: 0.9rem;
     color: #7f8c8d;
     margin-bottom: 10px;
@@ -348,12 +314,63 @@ main {
 /* --- Checkout Page --- */
 #checkoutPage {
     background-color: #ffffff;
-    max-width: 600px;
+    max-width: 1000px;
     margin: 20px auto;
     padding: 25px 30px;
     border-radius: 8px;
     border: 1px solid #e1e8ed;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Two-column layout if wrapper containers are used */
+#checkoutPage:has(.checkoutShowcase, .checkoutDetails) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+    row-gap: 15px;
+    align-items: flex-start;
+}
+
+#checkoutPage:has(.checkoutShowcase, .checkoutDetails) > h2:first-of-type {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e67e22;
+}
+
+#checkoutPage .checkoutShowcase,
+#checkoutPage .checkoutDetails {
+    min-width: 0;
+}
+
+/* Fallback two-column layout for unnested direct children */
+#checkoutPage:not(:has(.checkoutShowcase)) > h2:first-of-type {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#checkoutPage:not(:has(.checkoutShowcase)) .productCard {
+    float: left;
+    width: 46%;
+    clear: left;
+    margin-bottom: 16px;
+}
+
+#checkoutPage:not(:has(.checkoutShowcase)) > p,
+#checkoutPage:not(:has(.checkoutShowcase)) > h2:nth-of-type(2),
+#checkoutPage:not(:has(.checkoutShowcase)) > #submitForm,
+#checkoutPage:not(:has(.checkoutShowcase)) > button {
+    margin-left: 50%;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+#checkoutPage:not(:has(.checkoutShowcase)) > #submitForm,
+#checkoutPage:not(:has(.checkoutShowcase)) > button {
+    width: 50%;
 }
 
 #checkoutPage h2 {
@@ -399,7 +416,53 @@ main {
     outline: none;
 }
 
-#checkoutPage input[type="checkbox"],
+/* --- Checkout Page Cart Items --- */
+#checkoutPage .productCard {
+    margin-bottom: 16px;
+    background-color: #fafbfc;
+}
+
+#checkoutPage .productCard figure {
+    height: 100px;
+}
+
+#checkoutPage .productCard figure :is(i, span) {
+    font-size: 2.6rem;
+}
+
+#checkoutPage .productCard p {
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 1rem;
+    margin: 6px 0 10px 0;
+}
+
+#checkoutPage .productCard button {
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: auto;
+    margin-top: 4px;
+    align-self: flex-start;
+    transition: background-color 0.2s ease;
+}
+
+#checkoutPage .productCard button:hover {
+    background-color: #c0392b;
+}
+
+#checkoutPage input[type="checkbox"] {
+    margin-left: 6px;
+    margin-right: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
 #checkoutPage input[type="radio"] {
     margin-right: 8px;
     vertical-align: middle;
@@ -423,7 +486,8 @@ main {
 }
 
 /* Submit Order Button */
-#checkoutPage button {
+#checkoutPage #submitForm,
+#checkoutPage > button {
     display: block;
     width: 100%;
     background-color: #27ae60;
@@ -438,11 +502,13 @@ main {
     transition: background-color 0.2s ease;
 }
 
-#checkoutPage button:hover:not(:disabled) {
+#checkoutPage #submitForm:hover:not(:disabled),
+#checkoutPage > button:hover:not(:disabled) {
     background-color: #219150;
 }
 
-#checkoutPage button:disabled {
+#checkoutPage #submitForm:disabled,
+#checkoutPage > button:disabled {
     background-color: #bdc3c7;
     cursor: not-allowed;
     opacity: 0.7;
@@ -479,5 +545,22 @@ main {
 
     #checkoutPage {
         padding: 20px 15px;
+    }
+
+    #checkoutPage:has(.checkoutShowcase, .checkoutDetails) {
+        grid-template-columns: 1fr;
+    }
+
+    #checkoutPage:not(:has(.checkoutShowcase)) .productCard {
+        float: none;
+        width: 100%;
+    }
+
+    #checkoutPage:not(:has(.checkoutShowcase)) > p,
+    #checkoutPage:not(:has(.checkoutShowcase)) > h2:nth-of-type(2),
+    #checkoutPage:not(:has(.checkoutShowcase)) > #submitForm,
+    #checkoutPage:not(:has(.checkoutShowcase)) > button {
+        margin-left: 0;
+        width: 100%;
     }
 }

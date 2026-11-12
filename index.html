@@ -34,57 +34,69 @@
         <main>
             <div id="checkoutPage" v-if="!showProduct">
                 <h2>Checkout</h2>
-                <p>
-                    <strong>Name:</strong>
-                    <input v-model.trim="order.name" placeholder="Name" required>
-                </p>
-                <p>
-                    <strong>Phone Number:</strong>
-                    <input v-model.trim="order.phone" placeholder="Phone Number" required>
-                </p>
-                <p>
-                    <strong>Address:</strong> 
-                    <input v-model="order.address" placeholder="Address"/>
-                </p>
-                <p>
-                    <strong>City:</strong> 
-                    <input v-model="order.city" placeholder="City"/>
-                </p>
-                <p>
-                    <strong>State:</strong>
-                    <select v-model="order.state">
-                        <option disabled value="">State</option>
-                        <option v-for="(key, value) in states">
-                            {{value}}
-                        </option>
-                    </select>
-                </p>
-                <p>
-                    <strong>Zip/Postal Code:</strong> <input v-model.num="order.zip" placeholder="Zip/Postal Code"/>
-                </p>
-                <p>
-                    <label for="gift">Ship As Gift?</label>
-                    <input type="checkbox" id="gift" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.noSendgift" value="false">
-                </p>
-                <p><strong>Shipping Method:</strong></p>
-                <p><input type="radio" id="home" value="Home" v-model="order.method">
-                    <label for="home">Home</label>
-                </p>
-                <p><input type="radio" id="business" value="Business" v-model="order.method">
-                    <label for="business">Business</label>
-                </p>
+                <div class="checkoutShowcase">
+                    <div class="productCard" v-for="cartitem in cart">
+                        <figure>
+                            <i v-bind:class="cartitem.image"></i>
+                        </figure>
+                        <h2 v-text="cartitem.title"></h2>
+                        <p v-text="'Price: $' + cartitem.price + ' x Quantity: ' + cartitem.quantity + ' = $' + (cartitem.price * cartitem.quantity).toFixed(2)"></p>
+                        <button @click="removeFromCart(cartitem)">Remove from Cart</button>
+                    </div>
+                </div>
+                <div class="checkoutDetails">
+                    <p>
+                        <strong>Name:</strong>
+                        <input v-model.trim="order.name" placeholder="Name" required>
+                    </p>
+                    <p>
+                        <strong>Phone Number:</strong>
+                        <input v-model.trim="order.phone" placeholder="Phone Number" required>
+                    </p>
+                    <p>
+                        <strong>Address:</strong> 
+                        <input v-model="order.address" placeholder="Address"/>
+                    </p>
+                    <p>
+                        <strong>City:</strong> 
+                        <input v-model="order.city" placeholder="City"/>
+                    </p>
+                    <p>
+                        <strong>State:</strong>
+                        <select v-model="order.state">
+                            <option disabled value="">State</option>
+                            <option v-for="(key, value) in states">
+                                {{key}}
+                            </option>
+                        </select>
+                    </p>
+                    <p>
+                        <strong>Zip/Postal Code:</strong> <input v-model.num="order.zip" placeholder="Zip/Postal Code"/>
+                    </p>
+                    <p>
+                        <label for="gift">Ship As Gift?</label>
+                        <input type="checkbox" id="gift" v-model="order.gift" v-bind:true-value="order.sendGift" v-bind:false-value="order.noSendgift" value="false">
+                    </p>
+                    <p><strong>Shipping Method:</strong></p>
+                    <p><input type="radio" id="home" value="Home" v-model="order.method">
+                        <label for="home">Home</label>
+                    </p>
+                    <p><input type="radio" id="business" value="Business" v-model="order.method">
+                        <label for="business">Business</label>
+                    </p>
 
-                <h2>Order Information</h2>
-                <p>Name: {{order.name}}</p>
-                <p>Phone Number: {{order.phone}}</p>
-                <p>Address: {{order.address}}</p>
-                <p>City: {{order.city}}</p>
-                <p>State: {{order.state}}</p>
-                <p>Zip/Postal Code: {{order.zip}}</p>
-                <p>Ship As Gift: {{order.gift}}</p>
-                <p>Shipping Method: {{order.method}}</p>
+                    <h2>Order Information</h2>
+                    <p>Name: {{order.name}}</p>
+                    <p>Phone Number: {{order.phone}}</p>
+                    <p>Address: {{order.address}}</p>
+                    <p>City: {{order.city}}</p>
+                    <p>State: {{order.state}}</p>
+                    <p>Zip/Postal Code: {{order.zip}}</p>
+                    <p>Ship As Gift: {{order.gift}}</p>
+                    <p>Shipping Method: {{order.method}}</p>
 
-                <button id="submitForm" @click="submitForm()" v-bind:disabled="isFormValid()">Submit Order</button>
+                    <button id="submitForm" @click="submitForm()" v-bind:disabled="!isFormValid()">Submit Order</button>
+                </div>
             </div>
             <div id="productPage" v-else>
                 <div id="sortOptions">
@@ -104,7 +116,7 @@
                 </div>
                 <div class="productCard" v-for="product in searchedProducts">
                     <figure class="imgWrapper">
-                        <img class="img" v-bind:src="product.image" v-bind:alt="product.title">
+                        <i v-bind:class="product.image"></i>
                     </figure>
                     <h2 v-text="product.title"></h2>
                     <p v-text="product.description"></p>
@@ -146,23 +158,48 @@
                 },
                 products: products,
                 states: {
-                        AL: 'Alabama',
-                        AR: 'Arkansas',
-                        CA: 'California',
-                        NV: 'Nevada'
+                        DXB : 'Dubai',
+                        SHR : 'Sharjah',
+                        AJM : 'Ajman',
+                        RAK : 'Ras Al Khaimah',
+                        FJR : 'Fujairah',
+                        UMM : 'Umm Al Quwain',
+                        AUH : 'Abu Dhabi'
                 },
                 cart:[]// The shopping cart array
             },
             methods: {
                 addToCart: function(product) {
-                    this.cart.push(product.id);
+                    if (this.cartCount(product.id) > 0) {
+                        for (let i = 0; i < this.cart.length; i++) {
+                            if (this.cart[i].id === product.id) {
+                                this.cart[i].quantity++;
+                                return;
+                            }
+                        }
+                    } else {
+                        this.cart.push({id: product.id, quantity: 1, title: product.title, image: product.image, price: product.price});
+                    }
+                },
+                removeFromCart: function(product) {
+                    for (let i = 0; i < this.cart.length; i++) {
+                        if (this.cart[i].id === product.id) {
+                            if (this.cart[i].quantity > 1) {
+                                this.cart[i].quantity--;
+                            } else {
+                                this.cart.splice(i, 1);
+                            }
+                            break;
+                        }
+                    }
+                    if (this.cartItemCount === 0) {
+                        this.showCheckout();
+                    }
                 },
                 showCheckout: function() {
                     this.showProduct = this.showProduct ? false : true;
                 },
                 submitForm: function() {
-                    this.order.name = this.firstName;
-                    this.order.phone = this.phone;
                     alert('Order submitted by ' + this.order.name + '! Thank you for your purchase.');
                 },
                 isFormValid: function() {
@@ -172,21 +209,20 @@
                     return product.availableInventory > this.cartCount(product.id);
                 },
                 cartCount: function(id) {
-                    let count = 0;
-                    for (let i = 0; i < this.cart.length; i++){
-                        if (this.cart[i] === id) {
-                            count++;
-                        }
-                    }
-                    return count;
+                    let item = this.cart.find(i => i.id === id);
+                    return item ? item.quantity : 0;
                 }
             },
             computed: {
                 itemsLeft : function() {
-                    return this.product.availableInventory - this.cart.length;
+                    return this.products.availableInventory - this.cart.length;
                 },
                 cartItemCount: function() {
-                    return this.cart.length;
+                    let itemCount = 0;
+                    for (let i = 0; i < this.cart.length; i++) {
+                        itemCount += this.cart[i].quantity;
+                    }
+                    return itemCount;
                 },
                 sortedProducts: function() {
                     let sortOption = this.sortOption;
